@@ -10,9 +10,14 @@ public class Turretle : MonoBehaviour
     [SerializeField] LayerMask layer;
     [SerializeField] bool isColliding;
 
+    Animator animTurretle;
+    BoxCollider2D colliderTurretle;
+
     private void Awake ()
     {
         rbTurretle = GetComponent<Rigidbody2D>();
+        animTurretle = GetComponent<Animator>();
+        colliderTurretle = GetComponent<BoxCollider2D>();
     }
 
     void Start()
@@ -26,7 +31,7 @@ public class Turretle : MonoBehaviour
 
         isColliding = Physics2D.Linecast(point1.position, point2.position, layer);
 
-        if(isColliding)
+        if (isColliding)
         {
             transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
             speed *=-1;
@@ -37,5 +42,21 @@ public class Turretle : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            FindObjectOfType<PlayerMovement>().Death();
+
+            Turretle[] turretle = FindObjectsOfType<Turretle>();
+
+            for (int i = 0; i < turretle.Length; i++)
+            {
+                turretle[i].speed = 0;
+                turretle[i].animTurretle.speed = 0;
+            }
+        }
     }
 }
