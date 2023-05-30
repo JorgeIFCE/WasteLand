@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
    
    void RestartGame()
    {
-        SceneManager.LoadScene("Fase1");
+        SceneManager.LoadScene("GameOver");
    }
 
 }
